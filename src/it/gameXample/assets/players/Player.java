@@ -1,9 +1,9 @@
-package it.gameXample.assets;
+package it.gameXample.assets.players;
 
 public class Player {
-    private String name;
-    private double hp;
-    private double stamina;
+    protected String name;
+    protected double hp;
+    protected double stamina;
 
     public Player(String name) {
         this.name = name;
@@ -35,10 +35,7 @@ public class Player {
         this.stamina = stamina;
     }
 
-    public String toString (){
-        return "Nome: " + name + "\nHP: " + hp + "\nStamina: " + stamina;
-
-
+    public String toString() {
+        return "Nome: " + name + "\nHP " + hp + "\nStamina " + stamina;
     }
-
 }
