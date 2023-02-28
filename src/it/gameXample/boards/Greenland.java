@@ -1,110 +1,114 @@
 package it.gameXample.boards;
+
 import it.gameXample.assets.players.Player;
 import it.gameXample.assets.players.WarriorPlayer;
+import it.gameXample.assets.players.WizardPlayer;
 
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Greenland {
-    private static final String SEPARATOR = "------------------";
+
+    private static final String SEPARATOR = "--------------------";
+
     private static final int GO_AHEAD = 1;
     private static final int GO_RIGHT = 2;
     private static final int GO_LEFT = 3;
     private static final int PLAYER_DETAILS = 4;
     private static final int EXIT_GAME = 0;
 
+    private Scanner input;      // Per ricevere l'input dell'utente
+    private PrintStream ui;     // Per stampare a video
 
+    private Player player;      // Creo un campo di tipo "Player" (generico
 
-    private Scanner input; // per ricevere l'input dell'utente
-    private PrintStream UI;
-    private Player player;
-
-    public Greenland(Scanner input, PrintStream UI) {
-        this.input = input;
-        this.UI = UI;
+    public Greenland(InputStream inputStream, PrintStream ui) {
+        this.input = new Scanner(inputStream);
+        this.ui = ui;
     }
 
     public void startGame() {
-        UI.println("Benvenuto nella prateria!");
+        ui.println("Benvenuto nella prateria!");        //System.out.println("Benvenuto ...")
         printSeparator();
         createPlayer();
         printSeparator();
-        UI.println(player);
+        ui.println(player);
         printSeparator();
-
+        // Sessione di gioco
         boolean exit = false;
-        do{
+        do {
             int answer = askQuestion();
-            switch (answer){
+            switch (answer) {
                 case GO_AHEAD:
-                    UI.println("Sei andato avanti");
+                    ui.println("Sei andato avanti");
                     break;
                 case GO_RIGHT:
-                    UI.println("Sei andato a destra");
+                    ui.println("Sei andato a destra");
                     break;
                 case GO_LEFT:
-                    UI.println("Sei andato a sinistra");
+                    ui.println("Sei andato a sinistra");
                     break;
                 case PLAYER_DETAILS:
-                    UI.println(player);
+                    ui.println(player);
                     break;
                 case EXIT_GAME:
-                    UI.println("Sei uscito dal gioco");
+                    ui.println("Sei uscito dal gioco");
                     exit = true;
                     break;
                 default:
-                    UI.println("Il comando " + answer + " non e' valido");
-
+                    ui.println("Il comando " + answer + " non è valido");
             }
             printSeparator();
-        }while (!exit);
-        UI.println("Grazie per aver giocato " + player.getName() + "!");
+        }while(!exit);
+        ui.println("Grazie per aver giocato " + player.getName() + "!");
 
     }
 
     private void printSeparator() {
-        UI.println(SEPARATOR);
+        ui.println(SEPARATOR);
     }
 
     private void createPlayer() {
-        if (player == null) {
-            UI.println("Come ti chiami ? - ");
+        if(player == null) {                        // Se ho appena iniziato il player è null
+            ui.print("Come ti chiami ? - ");
             String playerName = input.nextLine();
-            UI.println("Scegli il tipo");
-            UI.println("[1] - Generico");
-            UI.println("[2] - Guerriero");
-            UI.println("Risposta: ");
+            ui.println("Scegli il tipo: ");
+            ui.println("[1] - Generico");
+            ui.println("[2] - Guerriero");
+            ui.println("[3] - Mago");
+            ui.print("Risposta: ");
             int choice = input.nextInt();
-            if(choice == 1){
+            if(choice == 1) {
                 player = new Player(playerName);
             }
             else if(choice == 2) {
                 player = new WarriorPlayer(playerName);
             }
+            else if(choice == 3) {
+                player = new WizardPlayer(playerName);
+            }
             else {
                 player = new Player(playerName);
             }
-
-        } else {
-            if (player.getHp() == 0) {
+        }
+        else {                                      // Se sono già in sessione il player esiste
+            if(player.getHp() == 0) {               // Se ha gli hp = 0 allora lo faccio rivivere
                 player.setHp(100);
                 player.setStamina(50);
-
             }
         }
-
-
     }
+
     private int askQuestion() {
-        UI.println("Cosa vuoi fare ? ");
-        UI.println("[1] - Vai avanti");
-        UI.println("[2] - Vai a destra");
-        UI.println("[3] - Vai a sinistra");
-        UI.println("[4] - Dettagli personaggio");
-        UI.println("[0] - Esci");
+        ui.println("Cosa vuoi fare ? ");
+        ui.println("[" + GO_AHEAD + "] - Vai avanti");
+        ui.println("[" + GO_RIGHT +"] - Vai a destra");
+        ui.println("[" + GO_LEFT + "] - Vai a sinistra");
+        ui.println("["+ PLAYER_DETAILS +"] - Dettagli personaggio");
+        ui.println("["+ EXIT_GAME + "] - Esci");
 
-        UI.print ("Risposta: ");
+        ui.print("Risposta: ");
         return input.nextInt();
-
     }
 }

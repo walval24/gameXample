@@ -4,6 +4,7 @@ public class Player {
     protected String name;
     protected double hp;
     protected double stamina;
+    protected String type;
 
     public Player(String name) {
         this.name = name;
@@ -35,7 +36,18 @@ public class Player {
         this.stamina = stamina;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String toString() {
-        return "Nome: " + name + "\nHP " + hp + "\nStamina " + stamina;
+        if(type != null) {
+            return "Nome: " + name + "\nHP: " + hp + "\nStamina: " + stamina + "\nTipo: " + type;
+        }
+        return "Nome: " + name + "\nHP: " + hp + "\nStamina: " + stamina;
     }
 }
