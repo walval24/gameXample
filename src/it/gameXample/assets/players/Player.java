@@ -1,15 +1,56 @@
 package it.gameXample.assets.players;
 
+import it.gameXample.assets.enemies.Enemy;
+import it.gameXample.assets.enums.Type;
+import it.gameXample.assets.equipment.Weapon;
+
 public class Player {
     protected String name;
     protected double hp;
     protected double stamina;
-    protected String type;
+    protected Type type;
+
+    protected int damage;
+
+    protected int resistance;
+
+    protected Weapon weapon;
 
     public Player(String name) {
         this.name = name;
         this.hp = 100;
         this.stamina = 50;
+        type = Type.GENERIC;
+
+        damage = 10;
+        resistance = 10;
+
+   }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getResistance() {
+        return resistance;
+    }
+
+    public void setResistance(int resistance) {
+        this.resistance = resistance;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        if(this.type == weapon.getType()) {
+            this.weapon = weapon;
+        }
     }
 
     public String getName() {
@@ -36,18 +77,34 @@ public class Player {
         this.stamina = stamina;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
     public String toString() {
-        if(type != null) {
-            return "Nome: " + name + "\nHP: " + hp + "\nStamina: " + stamina + "\nTipo: " + type;
+
+        return "Nome: " + name + "\nHP: " + hp + "\nStamina: " + stamina; }
+
+
+    protected double calculateDamage(){
+        if(weapon != null){
+            return damage + weapon.getDamage();
         }
-        return "Nome: " + name + "\nHP: " + hp + "\nStamina: " + stamina;
+        return damage;
     }
+
+    public void attackEnemy(Enemy enemy){
+        double playerDamage = calculateDamage();
+        double totalDamage = playerDamage - enemy.getResistance();
+
+        double enemyHp = enemy.getHp();
+
+        enemy.setHp(enemyHp - totalDamage);
+
+    }
+
 }
