@@ -5,17 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3825b23b-dc0e-4593-8de5-4ead4608882d" name="Changes" comment="first commit">
-      <change afterPath="$PROJECT_DIR$/src/it/gameXample/assets/enemies/Enemy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/it/gameXample/assets/enums/Type.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/it/gameXample/assets/equipment/Rod.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/it/gameXample/assets/equipment/Sword.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/it/gameXample/assets/equipment/Weapon.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/it/gameXample/boards/EnemyGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/it/gameXample/assets/Character.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/it/gameXample/assets/interfaces/Striker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/it/gameXample/boards/interfaces/Startable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/gameXample/assets/actions/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/assets/actions/Action.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/gameXample/assets/actions/Option.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/assets/actions/Option.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/gameXample/assets/enemies/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/assets/enemies/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/gameXample/assets/enums/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/assets/enums/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/gameXample/assets/equipment/Rod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/assets/equipment/Rod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/gameXample/assets/equipment/Sword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/assets/equipment/Sword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/gameXample/assets/equipment/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/assets/equipment/Weapon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/it/gameXample/assets/players/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/assets/players/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/it/gameXample/assets/players/WarriorPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/assets/players/WarriorPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/it/gameXample/assets/players/WizardPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/assets/players/WizardPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/it/gameXample/boards/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/boards/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/gameXample/boards/EnemyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/boards/EnemyGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/it/gameXample/boards/Greenland.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/gameXample/boards/Greenland.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,6 +32,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -94,7 +101,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677573593103</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="first commit">
+      <created>1677668958526</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1677668958526</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

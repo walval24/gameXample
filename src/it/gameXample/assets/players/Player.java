@@ -1,46 +1,31 @@
 package it.gameXample.assets.players;
 
+import it.gameXample.assets.Character;
 import it.gameXample.assets.enemies.Enemy;
 import it.gameXample.assets.enums.Type;
-import it.gameXample.assets.equipment.Weapon;
+import it.gameXample.assets.equipments.Weapon;
+import it.gameXample.assets.interfaces.Striker;
 
-public class Player {
-    protected String name;
-    protected double hp;
-    protected double stamina;
+import java.util.concurrent.ThreadLocalRandom;
+
+public abstract class Player extends Character implements Striker {
     protected Type type;
-
-    protected int damage;
-
-    protected int resistance;
-
     protected Weapon weapon;
 
     public Player(String name) {
         this.name = name;
         this.hp = 100;
         this.stamina = 50;
-        type = Type.GENERIC;
-
         damage = 10;
         resistance = 10;
-
-   }
-
-    public int getDamage() {
-        return damage;
     }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
+    public Type getType() {
+        return type;
     }
 
-    public int getResistance() {
-        return resistance;
-    }
-
-    public void setResistance(int resistance) {
-        this.resistance = resistance;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public Weapon getWeapon() {
@@ -53,58 +38,31 @@ public class Player {
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getHp() {
-        return hp;
-    }
-
-    public void setHp(double hp) {
-        this.hp = hp;
-    }
-
-    public double getStamina() {
-        return stamina;
-    }
-
-    public void setStamina(double stamina) {
-        this.stamina = stamina;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
     public String toString() {
-
-        return "Nome: " + name + "\nHP: " + hp + "\nStamina: " + stamina; }
-
-
-    protected double calculateDamage(){
-        if(weapon != null){
-            return damage + weapon.getDamage();
-        }
-        return damage;
+        return "Nome: " + name + "\nHP: " + hp + "\nStamina: " + stamina;
     }
 
-    public void attackEnemy(Enemy enemy){
+    @Override
+    protected double calculateDamage() {
+        int randomNr = ThreadLocalRandom.current().nextInt(1, 101);
+        double critDamage = 0;
+        if(randomNr <= 30) {
+            critDamage = damage * 1.2;
+        }
+
+        if(weapon != null) {
+            return damage + weapon.getDamage() + critDamage;
+        }
+        return damage + critDamage;
+    }
+
+    @Override
+    public void attack(Character enemy) {
         double playerDamage = calculateDamage();
         double totalDamage = playerDamage - enemy.getResistance();
 
         double enemyHp = enemy.getHp();
 
         enemy.setHp(enemyHp - totalDamage);
-
     }
-
 }

@@ -1,15 +1,12 @@
 package it.gameXample.assets.enemies;
 
-public class Enemy {
-    protected String name;
-    protected double hp;
-    protected double stamina;
+import it.gameXample.assets.Character;
+import it.gameXample.assets.interfaces.Striker;
 
-    protected int damage;
+public class Enemy extends Character implements Striker {
 
-    protected int resistance;
 
-    public Enemy(String name){
+    public Enemy(String name) {
         this.name = name;
         hp = 100;
         stamina = 50;
@@ -17,47 +14,22 @@ public class Enemy {
         resistance = 5;
     }
 
-    public String getName() {
-        return name;
+    public String toString() {
+        return "Nome: " + name + "\nHP: " + hp + "\nStamina: " + stamina;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getHp() {
-        return hp;
-    }
-
-    public void setHp(double hp) {
-        this.hp = hp;
-    }
-
-    public double getStamina() {
-        return stamina;
-    }
-
-    public void setStamina(double stamina) {
-        this.stamina = stamina;
-    }
-
-    public int getDamage() {
+    @Override
+    protected double calculateDamage() {
         return damage;
     }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
+    @Override
+    public void attack(Character character) {
+        double totalDamage = damage - character.getResistance();
+        if(totalDamage <= 1) {
+            totalDamage = 1;
+        }
+        double remainHp = character.getHp() - totalDamage;
+        character.setHp(remainHp);
     }
-
-    public int getResistance() {
-        return resistance;
-    }
-
-    public void setResistance(int resistance) {
-        this.resistance = resistance;
-    }
-
-    public String toString() {
-
-        return "Nome: " + name + "\nHP: " + hp + "\nStamina: " + stamina; }
 }

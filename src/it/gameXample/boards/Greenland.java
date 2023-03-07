@@ -4,23 +4,26 @@ import it.gameXample.assets.actions.Action;
 import it.gameXample.assets.enemies.Enemy;
 import it.gameXample.assets.players.Player;
 import it.gameXample.assets.enums.Type;
+import it.gameXample.boards.interfaces.Startable;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Greenland {
+public class Greenland implements Startable {
 
     private static final String SEPARATOR = "--------------------";
-
 
     private Scanner input;      // Per ricevere l'input dell'utente
     private PrintStream ui;     // Per stampare a video
 
-    private Player player;      // Creo un campo di tipo "Player" generico
+    private Player player;      // Creo un campo di tipo "Player" (generico
 
-    private Enemy[] enemies;
+    private ArrayList<Enemy> enemies;
 
     public Greenland(InputStream inputStream, PrintStream ui) {
         this.input = new Scanner(inputStream);
@@ -29,6 +32,7 @@ public class Greenland {
         enemies = EnemyGenerator.generateEnemies();
     }
 
+    @Override
     public void startGame() {
         ui.println("Benvenuto nella prateria!");        //System.out.println("Benvenuto ...")
         printSeparator();
@@ -38,20 +42,23 @@ public class Greenland {
         printSeparator();
         // Sessione di gioco
         boolean exit = false;
+        boolean completed = false;
         do {
             Action moveAction = Command.createMoveAction(player);
-            ui.print(moveAction);
-            int choice = input.nextInt();
-            ui.println(moveAction.getAnswer(choice));
-            if (choice == 0) {
+            int choice = makeChoice(moveAction);
+
+            if(choice == 0) {
                 exit = true;
-            } else if ( choice != 4) {
-                searchEnemy();
-
             }
-
+            else if(choice != 4) {
+                searchEnemy();
+            }
+            completed = isAllDefeated();
             printSeparator();
-        } while (!exit);
+        }while(!exit && !completed);
+        if(completed) {
+            ui.println("Complimenti hai completato la Prateria!");
+        }
         ui.println("Grazie per aver giocato " + player.getName() + "!");
 
     }
@@ -61,18 +68,16 @@ public class Greenland {
     }
 
     private void createPlayer() {
-        if (player == null) {                        // Se ho appena iniziato il player è null
-            ui.print("Come ti chiami ? ");
+        if(player == null) {                        // Se ho appena iniziato il player è null
+            ui.print("Come ti chiami ? - ");
             String playerName = input.nextLine();
+
             Action typeAction = Command.createPlayerTypeAction();
-            ui.print(typeAction);
-            int choice = input.nextInt();
-            ui.println(typeAction.getAnswer(choice));
-
+            int choice = makeChoice(typeAction);
             player = Type.getPlayer(choice, playerName);
-
-        } else {                                      // Se sono già in sessione il player esiste
-            if (player.getHp() == 0) {               // Se ha gli hp = 0 allora lo faccio rivivere
+        }
+        else {                                      // Se sono già in sessione il player esiste
+            if(player.getHp() == 0) {               // Se ha gli hp = 0 allora lo faccio rivivere
                 player.setHp(100);
                 player.setStamina(50);
             }
@@ -80,28 +85,60 @@ public class Greenland {
     }
 
     private void searchEnemy() {
-        int randomNr = ThreadLocalRandom.current().nextInt(1, 101);
-        if (randomNr < 80) {
-            int randomIndex = ThreadLocalRandom.current().nextInt(0, enemies.length);
-            Enemy enconteredEnemy = enemies[randomIndex];
-            ui.println("Ti sei imbattuto in un : " + enconteredEnemy.getName());
-            Action attackAction = Command.createAttackAction();
-            do {
-                ui.print(attackAction);
-                int choice = input.nextInt();
-                ui.println(attackAction.getAnswer(choice));
-                if(choice == 1){
-                    fightEnemy(enconteredEnemy);
+        int randomNr = ThreadLocalRandom.current().nextInt(1, 101);                 // Genero un numero tra 1 e 100 (compreso)
+        if(randomNr < 80) {                                                                     // Verifico se la probabilità di incotrare un nemico è verificata ( random < 80 -> 80% di probabilità)
+            int randomIndex = ThreadLocalRandom.current().nextInt(0, enemies.size());     // Trovo un nemico casuale
+            Enemy encounteredEnemy = enemies.get(randomIndex);
+            if(encounteredEnemy != null) {                                                      // Controlliamo se il nemico incotrato è gia morto in precedenza
+                ui.println("Ti sei imbattuto in un " + encounteredEnemy.getName());
+                fightEnemy(encounteredEnemy);
+                if(encounteredEnemy.getHp() <= 0) {
+                    enemies.remove(encounteredEnemy);         // Se il nemico arriva ad HP = 0, allora lo cancelliamo dall'array
                 }
-            }while(enconteredEnemy.getHp() > 0);
-
+            }
         }
     }
 
     private void fightEnemy(Enemy enemy) {
-        player.attackEnemy(enemy);
-        ui.println(enemy);
-        printSeparator();
+        Action attackAction = Command.createAttackAction();
+        int choice;
+        do {
+            choice = makeChoice(attackAction);
+            if(choice == 1) {
+                player.attack(enemy);
+                enemy.attack(player);
+                ui.println(enemy);
+                printSeparator();
+                ui.println(player);
+                printSeparator();
+                if(enemy.getHp() <= 0) {
+                    ui.println("Hai ucciso il " + enemy.getName());
+                    printSeparator();
+                }
+            }
+        }while(enemy.getHp() > 0 && choice != 2);
+    }
+
+    private boolean isAllDefeated() {
+        return enemies.isEmpty();
+    }
+
+    private int makeChoice(Action action) {
+        boolean isValid = false;
+        int choice = 0;
+        do {
+            try {
+                ui.print(action);
+                choice = input.nextInt();
+                ui.println(action.getAnswer(choice));
+                isValid = true;
+            }catch (InputMismatchException e) {
+                ui.println("La scelta non è valida. Riprovare!");
+                input.next();
+            }catch (Exception e) {
+                ui.println(e.getMessage());
+            }
+        }while (!isValid);
+        return choice;
     }
 }
-

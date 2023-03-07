@@ -2,15 +2,20 @@ package it.gameXample.boards;
 
 import it.gameXample.assets.enemies.Enemy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EnemyGenerator {
 
-    public static Enemy[] generateEnemies() {
-        return new Enemy[] {
-                new Enemy("Babbala"),
-                new Enemy("Pierino"),
-                new Enemy("Pacciani"),
-                new Enemy("Berlusconi"),
-                new Enemy("Antonello Venditti")
-        };
+    public static ArrayList<Enemy> generateEnemies() {
+        return new ArrayList<>(List.of(
+                new Enemy("Goblin"),
+                new Enemy("Lupo"),
+                new Enemy("Ragno"),
+                new Enemy("Orso"),
+                new Enemy("Pirata")
+        ));
+
+
     }
 }

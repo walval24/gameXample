@@ -4,7 +4,6 @@ public class Option {
 
     protected int value;
     protected String text;
-
     protected String answer;
 
     public Option(int value, String text, String answer) {
@@ -37,30 +36,7 @@ public class Option {
         this.answer = answer;
     }
 
-    @Override
     public String toString() {
-        return String.format("[%s] - %s",value, text);
+        return String.format("[%s] - %s", value, text);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
