@@ -22,10 +22,11 @@ return o.getAnswer();
 }
     public String toString() {
         StringBuilder result = new StringBuilder(question +"\n");
-        for(Map.Entry<Integer, Option> e : options.entrySet()) {
-            String strOption = String.format("[%s] - %s", e.getKey(), e.getValue().toString());
+        options.forEach((key, value) ->{
+            String strOption = String.format("[%s] - %s", key, value.toString());
             result.append(strOption).append("\n");
-        }
+        });
+
         result.append("Risposta: ");
         return result.toString();
     }
